@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { useAPI, useGlobalContext } from './hooks'
+import { fetchPeople } from './api'
 
-function App() {
+export default () => {
+  const { loading, error, result } = useAPI(fetchPeople)
+  const { changePeopleId } = useGlobalContext()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      { loading ? 'Loading...' : (error ? `ERROR! ${ error }` : JSON.stringify(result)) }
+      <button onClick={ changePeopleId }>
+        <span>Change context id</span>
+      </button>
     </div>
-  );
+  )
 }
-
-export default App;
